@@ -1,29 +1,31 @@
 import {
-  FormControl,
-  InputLabel,
-  Link,
-  Grid,
-  Typography,
-  TextField,
-  Stack,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
   Button,
+  Checkbox,
   Divider,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
   IconButton,
   InputAdornment,
+  InputLabel,
+  Link,
   OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import AuthLayout from "../layout/authLayout";
-import { FcGoogle } from "react-icons/fc";
-import { CgFacebook } from "react-icons/cg";
 import { BsGithub } from "react-icons/bs";
-import { color, image } from "../static";
+import { CgFacebook } from "react-icons/cg";
+import { FcGoogle } from "react-icons/fc";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import AuthLayout from "../layout/authLayout";
+import { base_url, color, image } from "../static";
 const Login = () => {
   const formWidth = {
     width: "50%",
@@ -31,9 +33,17 @@ const Login = () => {
       width: "80%",
     },
   };
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const handleLogin = (data) => {
-    alert(`email: ${data.email}  pwd: ${data.password} `);
+    var form_data = new FormData();
+    form_data.append("username", data.email);
+    form_data.append("password", data.password);
+    axios.post(`${base_url}/auth/login`, form_data).then((response) => {
+      if (!response?.data?.access_token) return;
+
+      navigate("/dashboard");
+    });
   };
 
   const [showPassword, setShowPassword] = useState(false);
