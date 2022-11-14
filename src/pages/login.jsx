@@ -16,7 +16,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsGithub } from "react-icons/bs";
@@ -25,7 +24,8 @@ import { FcGoogle } from "react-icons/fc";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layout/authLayout";
-import { base_url, color, image } from "../static";
+import authService from "../services/auth.service";
+import { color, image } from "../static";
 const Login = () => {
   const formWidth = {
     width: "50%",
@@ -35,13 +35,16 @@ const Login = () => {
   };
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const handleLogin = (data) => {
+  const handleLogin = async (data) => {
     var form_data = new FormData();
     form_data.append("username", data.email);
     form_data.append("password", data.password);
-    axios.post(`${base_url}/auth/login`, form_data).then((response) => {
-      if (!response?.data?.access_token) return;
 
+    authService.login(form_data).then((data) => {
+      if (data && !data.access_token && data.detail) {
+        alert(data.detail);
+        return;
+      }
       navigate("/dashboard");
     });
   };

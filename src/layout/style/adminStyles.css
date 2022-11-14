@@ -1,0 +1,22 @@
+.admin-container {
+  width: 100%;
+  /* background-color: red; */
+  transition: 850ms;
+}
+.admin-container-active {
+  width: 75%;
+  margin-left: 20%;
+  transition: 350ms;
+  /* background-color: blue; */
+}
+
+.default-color-primary,
+.default-color-secondary,
+.default-color-tertiary {
+  color: black;
+}
+
+.default-bg-color-secondary {
+  background-color: #dbcbcb;
+  color: black;
+}
