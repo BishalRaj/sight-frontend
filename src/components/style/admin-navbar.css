@@ -11,7 +11,7 @@ a {
   color: aliceblue !important;
 }
 .a-navbar {
-  background-color: bisque;
+  background-color: #28DEC0;
   height: 80px;
   display: flex;
   justify-content: flex-start;

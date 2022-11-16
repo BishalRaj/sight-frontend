@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import Sidebar from "../components/adminSidebar";
+import Home from "../pages/admin/dashboard";
+import Platform from "../pages/admin/platform";
 import "./style/adminStyles.css";
 
 const AdminLayout = () => {
@@ -21,15 +23,7 @@ const AdminLayout = () => {
           sidebar ? "admin-container-active pb-5" : "admin-container pb-5"
         }
       >
-        {/* {path === "About" ? (
-          <About />
-        ) : path === "Resume" ? (
-          <Resume />
-        ) : path === "Skills" ? (
-          <Skills />
-        ) : (
-          <Home />
-        )} */}
+        {path === "Dashboard" ? <Home /> : <Platform title={path} />}
       </div>
     </div>
   );

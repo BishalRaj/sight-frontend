@@ -1,7 +1,6 @@
 import React from "react";
 import { AiFillDashboard } from "react-icons/ai";
-import { GiSkills, GiSpellBook, GiEyeTarget } from "react-icons/gi";
-import { BsPersonSquare } from "react-icons/bs";
+import { FaEtsy, FaUps } from "react-icons/fa";
 
 export const SidebarData = [
   {
@@ -10,25 +9,14 @@ export const SidebarData = [
     cName: "a-nav-text",
   },
   {
-    title: "About",
-    icon: <BsPersonSquare />,
+    title: "Etsy",
+    icon: <FaEtsy />,
     cName: "a-nav-text",
   },
   {
-    title: "Resume",
-    icon: <GiSpellBook />,
+    title: "UPS",
+    icon: <FaUps />,
     cName: "a-nav-text",
-  },
-  {
-    title: "Skills",
-    icon: <GiSkills />,
-    cName: "a-nav-text",
-  },
-  {
-    title: "View",
-    icon: <GiEyeTarget />,
-    cName: "a-nav-text",
-    path: "/",
   },
   // {
   //   title: "Logout",
