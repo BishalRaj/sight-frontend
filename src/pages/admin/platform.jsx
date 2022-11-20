@@ -14,25 +14,32 @@ import {
 import productService from "../../services/product.service";
 
 const Platform = (props) => {
-  var card = [];
+  // var card = [];
   // const [fullscreen, setFullscreen] = useState(true);
   const [show, setShow] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [url, setUrl] = useState("");
-  const [searchData, setSearchData] = useState([]);
+  const [searchData, setSearchData] = useState(null);
+  const [trackingData, setTrackingData] = useState([]);
 
   useEffect(() => {
     if (url === "") {
       setDisabled(true);
+      setSearchData(null);
     }
+
+    // setTrackingData(card);
   }, [url]);
 
   let handleShow = () => {
     setShow(!show);
+    setSearchData(null);
   };
 
-  let handleClick = async () => {
-    productService.singleSearch(url);
+  let handleSubmit = () => {
+    productService
+      .singleSearch(url)
+      .then((response) => (response ? setSearchData(response) : null));
   };
 
   let handleChange = (e) => {
@@ -40,28 +47,50 @@ const Platform = (props) => {
     setDisabled(false);
   };
 
-  for (let index = 0; index < 4; index++) {
-    card.push(
-      <Col>
+  let handleTrackData = () => {
+    setTrackingData((prevData) => [
+      ...prevData,
+      <Col sm={6} md={4} lg={3} className="my-2">
         <Card style={{ width: "100%", border: "none" }} className="shadow-lg">
-          <Card.Img
-            variant="top"
-            src="https://images.pexels.com/photos/794494/pexels-photo-794494.jpeg?cs=srgb&dl=pexels-anthony-%29-794494.jpg&fm=jpg"
-          />
+          <Card.Img variant="top" src={searchData.img} />
           <Card.Body>
-            <Card.Title>{props.title}</Card.Title>
+            <Card.Title>{searchData.pid}</Card.Title>
+            <Card.Title>{searchData.name}</Card.Title>
             <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
+              Price: {searchData.price}
             </Card.Subtitle>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
+            <Card.Text>Sales: {searchData.sales}</Card.Text>
           </Card.Body>
         </Card>
-      </Col>
-    );
-  }
+      </Col>,
+    ]);
+    productService.saveTracking(searchData.pid);
+
+    handleShow();
+  };
+
+  // for (let index = 0; index < 5; index++) {
+  //   card.push(
+  //     <Col sm={3} md={3} lg={3} key={index} className="my-2">
+  //       <Card style={{ width: "100%", border: "none" }} className="shadow-lg">
+  //         <Card.Img
+  //           variant="top"
+  //           src="https://images.pexels.com/photos/794494/pexels-photo-794494.jpeg?cs=srgb&dl=pexels-anthony-%29-794494.jpg&fm=jpg"
+  //         />
+  //         <Card.Body>
+  //           <Card.Title>{props.title}</Card.Title>
+  //           <Card.Subtitle className="mb-2 text-muted">
+  //             Card Subtitle
+  //           </Card.Subtitle>
+  //           <Card.Text>
+  //             Some quick example text to build on the card title and make up the
+  //             bulk of the card's content.
+  //           </Card.Text>
+  //         </Card.Body>
+  //       </Card>
+  //     </Col>
+  //   );
+  // }
 
   var options = {
     chart: {
@@ -106,10 +135,44 @@ const Platform = (props) => {
               </Form.Text>
             </Form.Group>
 
-            <Button variant="primary" onClick={handleClick} disabled={disabled}>
+            <Button
+              variant="primary"
+              onClick={handleSubmit}
+              disabled={disabled}
+            >
               Search
             </Button>
           </Form>
+
+          {searchData != null ? (
+            <Card
+              style={{ width: "100%", border: "none" }}
+              className="shadow-lg mt-3"
+            >
+              <Card.Img variant="top" src={searchData.img} />
+              <Card.Body>
+                <Card.Title>{searchData.name}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {searchData.price}
+                </Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {searchData.rating}
+                </Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {searchData.review}
+                </Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {searchData.sales}
+                </Card.Subtitle>
+                {/* <Card.Text>
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </Card.Text> */}
+
+                <Button onClick={handleTrackData}>Add to Tracking list</Button>
+              </Card.Body>
+            </Card>
+          ) : null}
         </Modal.Body>
       </Modal>
       <Row>
@@ -135,11 +198,17 @@ const Platform = (props) => {
           <h5>Tracking List</h5>
 
           <Button variant="success" onClick={() => handleShow()}>
-            Add more
+            Add
           </Button>
         </Col>
 
-        {card}
+        {trackingData && trackingData.length > 0 ? (
+          trackingData.map((item, index) => {
+            return item;
+          })
+        ) : (
+          <p className="text-center w-100 text-muted">Nothing to display !</p>
+        )}
       </Row>
     </Container>
   );
