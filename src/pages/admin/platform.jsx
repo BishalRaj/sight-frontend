@@ -37,13 +37,9 @@ const Platform = (props) => {
   };
 
   let handleSubmit = () => {
-    productService
-      .singleSearch(url)
-      .then((response) =>
-        response.id
-          ? setSearchData(response)
-          : alert("Something went wrong! Please try again")
-      );
+    productService.singleSearch(url).then((response) => {
+      response.pid ? setSearchData(response) : alert("Someting went wrong!");
+    });
   };
 
   let handleChange = (e) => {
@@ -51,27 +47,40 @@ const Platform = (props) => {
     setDisabled(false);
   };
 
-  console.log(searchData);
-
   let handleTrackData = () => {
-    setTrackingData((prevData) => [
-      ...prevData,
-      <Col sm={6} md={4} lg={3} className="my-2">
-        <Card style={{ width: "100%", border: "none" }} className="shadow-lg">
-          <Card.Img variant="top" src={searchData.img} />
-          <Card.Body>
-            <Card.Title>{searchData.pid}</Card.Title>
-            <Card.Title>{searchData.name}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Price: {searchData.price}
-            </Card.Subtitle>
-            <Card.Text>Sales: {searchData.sales}</Card.Text>
-          </Card.Body>
-        </Card>
-      </Col>,
-    ]);
-    productService.saveTracking(searchData.pid);
+    // var isAlreadyAvailable = false;
 
+    try {
+      var isAlreadyAvailable = trackingData.filter((item) =>
+        item.pid.includes(searchData.pid)
+      );
+
+      if (!isAlreadyAvailable || isAlreadyAvailable.length <= 0) {
+        setTrackingData((prevData) => [
+          ...prevData,
+          <Col sm={6} md={4} lg={3} className="my-2">
+            <Card
+              style={{ width: "100%", border: "none" }}
+              className="shadow-lg"
+            >
+              <Card.Img variant="top" src={searchData.img} />
+              <Card.Body>
+                <Card.Title>{searchData.pid}</Card.Title>
+                <Card.Title>{searchData.name}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  Price: {searchData.price}
+                </Card.Subtitle>
+                <Card.Text>Sales: {searchData.sales}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>,
+        ]);
+      }
+    } catch (error) {
+      alert("Data already available");
+      handleShow();
+      return;
+    }
     handleShow();
   };
 
