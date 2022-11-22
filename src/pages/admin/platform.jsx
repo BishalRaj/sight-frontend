@@ -39,13 +39,19 @@ const Platform = (props) => {
   let handleSubmit = () => {
     productService
       .singleSearch(url)
-      .then((response) => (response ? setSearchData(response) : null));
+      .then((response) =>
+        response.id
+          ? setSearchData(response)
+          : alert("Something went wrong! Please try again")
+      );
   };
 
   let handleChange = (e) => {
     setUrl(e.target.value);
     setDisabled(false);
   };
+
+  console.log(searchData);
 
   let handleTrackData = () => {
     setTrackingData((prevData) => [

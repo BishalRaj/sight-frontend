@@ -10,9 +10,9 @@ const singleSearch = (url) => {
 };
 
 const saveTracking = (pid) => {
-  console.log(localStorage.getItem("user"));
+  console.debug(localStorage.getItem("user"));
   return axios
-    .post(`${base_url}/scrape/etzy/single/save`, {
+    .post(`${base_url}/scrape/etzy/single/track`, {
       token: localStorage.getItem("user"),
       pid: pid,
     })
