@@ -48,39 +48,19 @@ const Platform = (props) => {
   };
 
   let handleTrackData = () => {
-    // var isAlreadyAvailable = false;
-
     try {
       var isAlreadyAvailable = trackingData.filter((item) =>
         item.pid.includes(searchData.pid)
       );
-
-      if (!isAlreadyAvailable || isAlreadyAvailable.length <= 0) {
-        setTrackingData((prevData) => [
-          ...prevData,
-          <Col sm={6} md={4} lg={3} className="my-2">
-            <Card
-              style={{ width: "100%", border: "none" }}
-              className="shadow-lg"
-            >
-              <Card.Img variant="top" src={searchData.img} />
-              <Card.Body>
-                <Card.Title>{searchData.pid}</Card.Title>
-                <Card.Title>{searchData.name}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Price: {searchData.price}
-                </Card.Subtitle>
-                <Card.Text>Sales: {searchData.sales}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>,
-        ]);
-      }
     } catch (error) {
-      alert("Data already available");
-      handleShow();
+      console.log(error);
       return;
     }
+
+    !isAlreadyAvailable || isAlreadyAvailable.length <= 0
+      ? setTrackingData((prevData) => [...prevData, searchData])
+      : alert("Data already available");
+
     handleShow();
   };
 
@@ -219,7 +199,24 @@ const Platform = (props) => {
 
         {trackingData && trackingData.length > 0 ? (
           trackingData.map((item, index) => {
-            return item;
+            return (
+              <Col sm={6} md={4} lg={3} className="my-2" key={index}>
+                <Card
+                  style={{ width: "100%", border: "none" }}
+                  className="shadow-lg"
+                >
+                  <Card.Img variant="top" src={item.img} />
+                  <Card.Body>
+                    <Card.Title>{item.pid}</Card.Title>
+                    <Card.Title>{item.name}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      Price: {item.price}
+                    </Card.Subtitle>
+                    <Card.Text>Sales: {item.sales}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
           })
         ) : (
           <p className="text-center w-100 text-muted">Nothing to display !</p>
