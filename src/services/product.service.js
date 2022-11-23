@@ -8,9 +8,15 @@ const singleSearch = (url) => {
       return response.data;
     });
 };
+const fetchTrackingData = (url) => {
+  return axios
+    .get(`${base_url}/tracking/all/${localStorage.getItem("user")}`)
+    .then((response) => {
+      return response.data;
+    });
+};
 
 const saveTracking = (pid) => {
-  console.debug(localStorage.getItem("user"));
   return axios
     .post(`${base_url}/scrape/etzy/single/track`, {
       token: localStorage.getItem("user"),
@@ -24,6 +30,7 @@ const saveTracking = (pid) => {
 const productService = {
   singleSearch,
   saveTracking,
+  fetchTrackingData,
 };
 
 export default productService;

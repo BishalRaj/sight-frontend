@@ -27,9 +27,14 @@ const Platform = (props) => {
       setDisabled(true);
       setSearchData(null);
     }
-
-    // setTrackingData(card);
+    getAllData();
+    // fetch tracking data
   }, [url]);
+
+  let getAllData = async () => {
+    var data = await productService.fetchTrackingData();
+    setTrackingData(data);
+  };
 
   let handleShow = () => {
     setShow(!show);
@@ -47,7 +52,7 @@ const Platform = (props) => {
     setDisabled(false);
   };
 
-  let handleTrackData = () => {
+  let handleTrackData = async () => {
     try {
       var isAlreadyAvailable = trackingData.filter((item) =>
         item.pid.includes(searchData.pid)
@@ -57,35 +62,18 @@ const Platform = (props) => {
       return;
     }
 
-    !isAlreadyAvailable || isAlreadyAvailable.length <= 0
-      ? setTrackingData((prevData) => [...prevData, searchData])
-      : alert("Data already available");
+    if (!isAlreadyAvailable || isAlreadyAvailable.length <= 0) {
+      setTrackingData((prevData) => [...prevData, searchData]);
+      // save data
+      let response = await productService.saveTracking(searchData.pid);
+      if (response.msj) alert(response.msj);
+      console.log(response);
+    } else {
+      alert("Data already available");
+    }
 
     handleShow();
   };
-
-  // for (let index = 0; index < 5; index++) {
-  //   card.push(
-  //     <Col sm={3} md={3} lg={3} key={index} className="my-2">
-  //       <Card style={{ width: "100%", border: "none" }} className="shadow-lg">
-  //         <Card.Img
-  //           variant="top"
-  //           src="https://images.pexels.com/photos/794494/pexels-photo-794494.jpeg?cs=srgb&dl=pexels-anthony-%29-794494.jpg&fm=jpg"
-  //         />
-  //         <Card.Body>
-  //           <Card.Title>{props.title}</Card.Title>
-  //           <Card.Subtitle className="mb-2 text-muted">
-  //             Card Subtitle
-  //           </Card.Subtitle>
-  //           <Card.Text>
-  //             Some quick example text to build on the card title and make up the
-  //             bulk of the card's content.
-  //           </Card.Text>
-  //         </Card.Body>
-  //       </Card>
-  //     </Col>
-  //   );
-  // }
 
   var options = {
     chart: {
@@ -124,6 +112,7 @@ const Platform = (props) => {
                   target="_blank"
                   className="text-success"
                   rel="noreferrer"
+                  style={{ fontSize: "20px" }}
                 >
                   etsy
                 </a>
@@ -148,22 +137,17 @@ const Platform = (props) => {
               <Card.Body>
                 <Card.Title>{searchData.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {searchData.price}
+                  Price: {searchData.price}
                 </Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {searchData.rating}
+                  Rating: {searchData.rating}
                 </Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {searchData.review}
+                  Reviews: {searchData.review}
                 </Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {searchData.sales}
+                  Sales: {searchData.sales}
                 </Card.Subtitle>
-                {/* <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text> */}
-
                 <Button onClick={handleTrackData}>Add to Tracking list</Button>
               </Card.Body>
             </Card>
