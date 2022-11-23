@@ -9,8 +9,17 @@ const login = (form_data) => {
   });
 };
 
+const isActive = () => {
+  return axios
+    .get(`${base_url}/user/authenticate/${localStorage.getItem("user")}`)
+    .then((response) => {
+      return response;
+    });
+};
+
 const authService = {
   login,
+  isActive,
 };
 
 export default authService;

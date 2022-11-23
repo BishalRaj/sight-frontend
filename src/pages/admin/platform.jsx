@@ -12,24 +12,32 @@ import {
 } from "react-bootstrap";
 
 import productService from "../../services/product.service";
+import authService from "../../services/auth.service";
+import "./style/style.css";
+import { useNavigate } from "react-router-dom";
 
 const Platform = (props) => {
-  // var card = [];
-  // const [fullscreen, setFullscreen] = useState(true);
   const [show, setShow] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [url, setUrl] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [trackingData, setTrackingData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (
+      authService.isActive() === null ||
+      localStorage.getItem("user") === null ||
+      localStorage.getItem("user") === undefined
+    )
+      navigate("/");
+
     if (url === "") {
       setDisabled(true);
       setSearchData(null);
     }
     getAllData();
-    // fetch tracking data
-  }, [url]);
+  }, [url, navigate]);
 
   let getAllData = async () => {
     var data = await productService.fetchTrackingData();
@@ -54,6 +62,15 @@ const Platform = (props) => {
 
   let handleTrackData = async () => {
     try {
+      // if (
+      //   !trackingData ||
+      //   trackingData.length <= 0 ||
+      //   trackingData === null ||
+      //   trackingData === []
+      // ) {
+      //   setTrackingData((prevData) => [...prevData, searchData]);
+      //   // return;
+      // }
       var isAlreadyAvailable = trackingData.filter((item) =>
         item.pid.includes(searchData.pid)
       );
@@ -71,7 +88,6 @@ const Platform = (props) => {
     } else {
       alert("Data already available");
     }
-
     handleShow();
   };
 
@@ -83,6 +99,7 @@ const Platform = (props) => {
       categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
     },
   };
+
   var series = [
     {
       name: "series-1",
@@ -189,12 +206,17 @@ const Platform = (props) => {
                   style={{ width: "100%", border: "none" }}
                   className="shadow-lg"
                 >
-                  <Card.Img variant="top" src={item.img} />
+                  <Card.Img
+                    variant="top"
+                    height={"250px"}
+                    src={item.img}
+                    className="card_img"
+                  />
                   <Card.Body>
                     <Card.Title>{item.pid}</Card.Title>
                     <Card.Title>{item.name}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
-                      Price: {item.price}
+                      Price: £ {item.price}
                     </Card.Subtitle>
                     <Card.Text>Sales: {item.sales}</Card.Text>
                   </Card.Body>
