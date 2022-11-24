@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -10,22 +9,24 @@ import {
   Row,
 } from "react-bootstrap";
 
-import productService from "../../services/product.service";
-import authService from "../../services/auth.service";
-import "./style/style.css";
 import { useNavigate } from "react-router-dom";
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
+import authService from "../../services/auth.service";
+import productService from "../../services/product.service";
+import useWindowDimensions from "../../services/window.service";
+import "./style/style.css";
 
 const Platform = () => {
+  // eslint-disable-next-line
+  const { height, width } = useWindowDimensions();
   const [show, setShow] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [url, setUrl] = useState("");
@@ -217,32 +218,30 @@ const Platform = () => {
       </Modal>
       <Row>
         <Col lg={12}>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              width={500}
-              height={300}
-              data={data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="pv"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
-              />
-              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-            </LineChart>
-          </ResponsiveContainer>
+          <LineChart
+            width={0.8 * width}
+            height={300}
+            data={data}
+            margin={{
+              top: 20,
+              right: 20,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="pv"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          </LineChart>
         </Col>
       </Row>
 
