@@ -10,23 +10,14 @@ import {
 } from "react-bootstrap";
 
 import { useNavigate } from "react-router-dom";
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+
 import authService from "../../services/auth.service";
 import productService from "../../services/product.service";
-import useWindowDimensions from "../../services/window.service";
+import charts from "./chart";
+
 import "./style/style.css";
 
 const Platform = () => {
-  // eslint-disable-next-line
-  const { height, width } = useWindowDimensions();
   const [show, setShow] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [url, setUrl] = useState("");
@@ -51,6 +42,7 @@ const Platform = () => {
 
   let getAllData = async () => {
     var data = await productService.fetchTrackingData();
+    // console.log(data);
     setTrackingData(data);
   };
 
@@ -107,50 +99,23 @@ const Platform = () => {
     handleShow();
   };
 
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  let getMicroData = () => {
+    if (
+      trackingData === null ||
+      trackingData === undefined ||
+      trackingData.length === undefined
+    )
+      return;
+    let data = [];
+    for (let index = 0; index < trackingData.length; index++) {
+      for (let y = 0; y < trackingData[index].micro.length; y++) {
+        // console.log(trackingData[index].micro[y]);
+        data.push(trackingData[index].micro[y]);
+      }
+    }
+
+    return data;
+  };
 
   return (
     <Container className="mx-auto shadow rounded my-3 p-4">
@@ -218,30 +183,8 @@ const Platform = () => {
       </Modal>
       <Row>
         <Col lg={12}>
-          <LineChart
-            width={0.8 * width}
-            height={300}
-            data={data}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="pv"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-          </LineChart>
+          {/* Dashboard Chart */}
+          <charts.Dashboard micro={getMicroData()} />
         </Col>
       </Row>
 
@@ -260,29 +203,43 @@ const Platform = () => {
         </Col>
 
         {trackingData && trackingData.length > 0 ? (
-          trackingData.map((item, index) => {
+          trackingData.map((res, index) => {
             return (
-              <Col sm={6} md={4} lg={3} className="my-2" key={index}>
-                <Card
-                  style={{ width: "100%", border: "none" }}
-                  className="shadow-lg"
+              <Row className="shadow my-2">
+                <Col sm={6} md={4} lg={3} className="my-2" key={index}>
+                  <Card
+                    style={{ width: "100%", border: "none" }}
+                    className="shadow-lg"
+                  >
+                    <Card.Img
+                      variant="top"
+                      height={"250px"}
+                      src={res.item.img}
+                      className="card_img"
+                    />
+                    <Card.Body>
+                      <Card.Title>{res.item.pid}</Card.Title>
+                      <Card.Title
+                        style={{ maxHeight: "50px", overflow: "hidden" }}
+                      >
+                        {res.item.name}
+                      </Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted">
+                        Price: £ {res.item.price}
+                      </Card.Subtitle>
+                      <Card.Text>Sales: {res.item.sales}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col
+                  sm={6}
+                  md={8}
+                  lg={9}
+                  className="d-flex align-items-center justify-content-center"
                 >
-                  <Card.Img
-                    variant="top"
-                    height={"250px"}
-                    src={item.img}
-                    className="card_img"
-                  />
-                  <Card.Body>
-                    <Card.Title>{item.pid}</Card.Title>
-                    <Card.Title>{item.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      Price: £ {item.price}
-                    </Card.Subtitle>
-                    <Card.Text>Sales: {item.sales}</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
+                  <charts.Individual micro={res.micro} />
+                </Col>
+              </Row>
             );
           })
         ) : (
