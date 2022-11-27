@@ -57,6 +57,7 @@ const Platform = () => {
 
   let handleSubmit = () => {
     productService.singleSearch(url).then((response) => {
+      console.log(response);
       response.pid ? setSearchData(response) : alert("Someting went wrong!");
     });
   };
@@ -67,33 +68,49 @@ const Platform = () => {
   };
 
   let handleTrackData = async () => {
-    console.log("trackingData", trackingData);
     try {
-      if (
-        !trackingData ||
-        trackingData.length <= 0 ||
-        trackingData === null ||
-        trackingData === []
-      ) {
-        setTrackingData((prevData) => [...prevData, searchData]);
-        // return;
-      } else if (trackingData.msj) {
-        alert(trackingData.msj);
-        navigate("/");
-      } else {
-        var isAlreadyAvailable = trackingData.filter((item) =>
-          item.pid.includes(searchData.pid)
-        );
+      // if (
+      //   !trackingData ||
+      //   trackingData.length <= 0 ||
+      //   trackingData === null ||
+      //   trackingData === []
+      // ) {
+      //   setTrackingData((prevData) => [...prevData, { item: searchData }]);
+      // } else if (trackingData.msj) {
+      //   alert(trackingData.msj);
+      //   navigate("/");
+      // } else {
+      //   var isAlreadyAvailable = trackingData.filter((item) =>
+      //     item.item.pid.includes(searchData.pid)
+      //   );
 
-        if (!isAlreadyAvailable || isAlreadyAvailable.length <= 0) {
-          setTrackingData((prevData) => [...prevData, searchData]);
-          // save data
-          let response = await productService.saveTracking(searchData.pid);
-          if (response.msj) alert(response.msj);
-          console.log(response);
-        } else {
-          alert("Data already available");
-        }
+      //   if (!isAlreadyAvailable || isAlreadyAvailable.length <= 0) {
+      //     setTrackingData((prevData) => [...prevData, { item: searchData }]);
+      //     // save data
+      //     let response = await productService.saveTracking(searchData.pid);
+      //     if (response.msj) alert(response.msj);
+      //   } else {
+      //     alert("Data already available");
+      //   }
+      // }
+      // console.log(trackingData);
+      var isAlreadyAvailable = trackingData.filter((item) =>
+        item.item.pid.includes(searchData.pid)
+      );
+      if (
+        !isAlreadyAvailable ||
+        isAlreadyAvailable.length <= 0 ||
+        isAlreadyAvailable.length === undefined
+      ) {
+        setTrackingData((prevData) => [
+          ...prevData,
+          { item: searchData, micro: [searchData] },
+        ]);
+        // save data
+        let response = await productService.saveTracking(searchData.pid);
+        if (response.msj) alert(response.msj);
+      } else {
+        alert("Data already available");
       }
     } catch (error) {
       console.log(error);
@@ -110,10 +127,20 @@ const Platform = () => {
       trackingData.length === undefined
     )
       return;
+
     let data = [];
+
     for (let index = 0; index < trackingData.length; index++) {
+      if (
+        trackingData[index].micro === null ||
+        trackingData[index].micro === undefined
+      ) {
+        return;
+      }
+
       for (let y = 0; y < trackingData[index].micro.length; y++) {
         // console.log(trackingData[index].micro[y]);
+
         data.push(trackingData[index].micro[y]);
       }
     }
@@ -209,7 +236,10 @@ const Platform = () => {
                 checked
                 disabled
               />
-              <label className="form-check-label" for="flexSwitchCheckDefault">
+              <label
+                className="form-check-label"
+                htmlFor="flexSwitchCheckDefault"
+              >
                 Price
               </label>
             </div>
@@ -220,7 +250,10 @@ const Platform = () => {
                 onChange={() => setshowReview(!showReview)}
                 style={{ border: "none", backgroundColor: "#ff7300" }}
               />
-              <label className="form-check-label" for="flexSwitchCheckDefault">
+              <label
+                className="form-check-label"
+                htmlFor="flexSwitchCheckDefault"
+              >
                 Review
               </label>
             </div>
@@ -231,7 +264,10 @@ const Platform = () => {
                 onChange={() => setshowSales(!showSales)}
                 style={{ border: "none", backgroundColor: "#28DEC0" }}
               />
-              <label className="form-check-label" for="flexSwitchCheckDefault">
+              <label
+                className="form-check-label"
+                htmlFor="flexSwitchCheckDefault"
+              >
                 Sales
               </label>
             </div>
@@ -242,7 +278,10 @@ const Platform = () => {
                 onChange={() => setshowRating(!showRating)}
                 style={{ border: "none", backgroundColor: "red" }}
               />
-              <label className="form-check-label" for="flexSwitchCheckDefault">
+              <label
+                className="form-check-label"
+                htmlFor="flexSwitchCheckDefault"
+              >
                 Rating
               </label>
             </div>
@@ -254,6 +293,7 @@ const Platform = () => {
 
         {trackingData && trackingData.length > 0 ? (
           trackingData.map((res, index) => {
+            console.log(res);
             return (
               <Row className="shadow my-2">
                 <Col sm={6} md={4} lg={3} className="my-2" key={index}>
@@ -287,12 +327,16 @@ const Platform = () => {
                   lg={9}
                   className="d-flex align-items-center justify-content-center"
                 >
-                  <charts.Individual
-                    micro={res.micro}
-                    showRating={showRating}
-                    showReview={showReview}
-                    showSales={showSales}
-                  />
+                  {res.micro != null || res.micro != undefined ? (
+                    <charts.Individual
+                      micro={res.micro}
+                      showRating={showRating}
+                      showReview={showReview}
+                      showSales={showSales}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </Col>
               </Row>
             );

@@ -18,10 +18,17 @@ const Individual = (props) => {
   // eslint-disable-next-line
   const { height, width } = useWindowDimensions();
 
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + "-" + dd + "-" + yyyy;
+
   const data = props.micro
     ? props.micro.map((res) => {
         return {
-          date: res.date.toString(),
+          date: res.date ? res.date.toString() : today,
           review: res.review ? parseInt(res.review) : 0,
           price:
             Math.round(res.price * 1.0 * Math.random(Math.random * 1) * 100) /
