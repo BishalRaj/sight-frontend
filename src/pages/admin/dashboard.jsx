@@ -1,62 +1,134 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import Chart from "react-apexcharts";
+
+import { useNavigate } from "react-router-dom";
+
+import authService from "../../services/auth.service";
+import productService from "../../services/product.service";
+import charts from "./chart";
+
+import "./style/style.css";
 
 const Home = () => {
-  var card = [];
+  const [show, setShow] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [url, setUrl] = useState("");
+  const [searchData, setSearchData] = useState(null);
+  const [trackingData, setTrackingData] = useState([]);
 
-  for (let index = 0; index < 4; index++) {
-    card.push(
-      <Col>
-        <Card style={{ width: "100%" }} className="shadow">
-          <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
-            </Card.Subtitle>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
-          </Card.Body>
-        </Card>
-      </Col>
-    );
-  }
+  const navigate = useNavigate();
 
-  var options = {
-    chart: {
-      id: "basic-bar",
-    },
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-    },
+  useEffect(() => {
+    if (
+      authService.isActive() === null ||
+      localStorage.getItem("user") === null ||
+      localStorage.getItem("user") === undefined
+    )
+      navigate("/");
+
+    if (url === "") {
+      setDisabled(true);
+      setSearchData(null);
+    }
+    getAllData();
+  }, [url, navigate]);
+
+  let getAllData = async () => {
+    var data = await productService.fetchTrackingData();
+    // console.log(data);
+    setTrackingData(data);
   };
-  var series = [
-    {
-      name: "series-1",
-      data: [30, 40, 45, 50, 49, 60, 70, 91],
-    },
-  ];
+
+  let handleShow = () => {
+    setShow(!show);
+    setSearchData(null);
+  };
+
+  let getMicroData = () => {
+    if (
+      trackingData === null ||
+      trackingData === undefined ||
+      trackingData.length === undefined
+    )
+      return;
+    let data = [];
+    for (let index = 0; index < trackingData.length; index++) {
+      for (let y = 0; y < trackingData[index].micro.length; y++) {
+        // console.log(trackingData[index].micro[y]);
+        data.push(trackingData[index].micro[y]);
+      }
+    }
+
+    return data;
+  };
 
   return (
-    <Container className="mx-auto shadow rounded my-3 py-3">
-      <Row>
-        <Col>
-          <Chart
-            options={options}
-            series={series}
-            type="bar"
-            // width="500"
-            height={300}
-            className={{ width: "100%" }}
-          />
+    <Container className="mx-auto  my-1 p-4">
+      <Row className="mb-3">
+        <Col lg={3} md={3}>
+          <Card
+            style={{ height: "200px", backgroundColor: "#0A6C53" }}
+            className="shadow  text-light overflow-hidden"
+          >
+            <div className="mt-3 mx-3">
+              <Card.Title>{trackingData.length}</Card.Title>
+              <h6>Saved Items</h6>
+            </div>
+            <Card.Body>
+              <charts.StaticChart />
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col lg={3} md={3}>
+          <Card
+            style={{ height: "200px", backgroundColor: "#B9CAC4" }}
+            className="shadow   text-light overflow-hidden"
+          >
+            <div className="px-3 py-3">
+              <Card.Title>{trackingData.length}</Card.Title>
+              <h6>Saved Items</h6>
+            </div>
+            <Card.Body>
+              <charts.StaticChart />
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col lg={3} md={3}>
+          <Card
+            style={{ height: "200px", backgroundColor: "#15D997" }}
+            className="shadow   text-light overflow-hidden"
+          >
+            <div className="px-3 py-3">
+              <Card.Title>{trackingData.length}</Card.Title>
+              <h6>Saved Items</h6>
+            </div>
+            <Card.Body>
+              <charts.StaticChart />
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col lg={3} md={3}>
+          <Card
+            style={{ height: "200px", backgroundColor: "#1177DC" }}
+            className="shadow  text-light overflow-hidden"
+          >
+            <div className="px-3 py-3">
+              <Card.Title>{trackingData.length}</Card.Title>
+              <h6>Saved Items</h6>
+            </div>
+            <Card.Body>
+              <charts.StaticChart />
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
-
-      <Row className="">{card}</Row>
+      <Row className="d-flex align-items-center justify-content-center shadow-sm p-3 ">
+        <Col lg={12} className="overflow-hidden">
+          {/* Dashboard Chart */}
+          <h5>Tracked Items Analysis</h5>
+          <charts.Dashboard micro={getMicroData()} />
+        </Col>
+      </Row>
     </Container>
   );
 };

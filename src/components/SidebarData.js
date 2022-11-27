@@ -1,5 +1,9 @@
 import React from "react";
-import { AiFillDashboard } from "react-icons/ai";
+import {
+  AiFillDashboard,
+  AiFillFileExcel,
+  AiOutlineLogout,
+} from "react-icons/ai";
 import { FaEtsy, FaUps } from "react-icons/fa";
 
 export const SidebarData = [
@@ -14,13 +18,18 @@ export const SidebarData = [
     cName: "a-nav-text",
   },
   {
+    title: "Excel",
+    icon: <AiFillFileExcel />,
+    cName: "a-nav-text",
+  },
+  {
     title: "UPS",
     icon: <FaUps />,
     cName: "a-nav-text",
   },
   // {
   //   title: "Logout",
-  //   icon: <AiIcons.AiOutlineLogout />,
+  //   icon: <AiOutlineLogout />,
   //   cName: "a-nav-text",
   // },
 ];

@@ -23,6 +23,10 @@ const Platform = () => {
   const [url, setUrl] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [trackingData, setTrackingData] = useState([]);
+  const [showReview, setshowReview] = useState(false);
+  const [showRating, setshowRating] = useState(false);
+  const [showSales, setshowSales] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -181,9 +185,10 @@ const Platform = () => {
           ) : null}
         </Modal.Body>
       </Modal>
-      <Row>
-        <Col lg={12}>
+      <Row className="d-flex align-items-center justify-content-center shadow-sm py-3 ">
+        <Col lg={12} className="overflow-hidden">
           {/* Dashboard Chart */}
+          <h5>Summary</h5>
           <charts.Dashboard micro={getMicroData()} />
         </Col>
       </Row>
@@ -193,10 +198,55 @@ const Platform = () => {
           sm={12}
           md={12}
           lg={12}
-          className="d-flex justify-content-between py-3"
+          className="d-flex justify-content-between py-3 mt-3"
         >
           <h5>Tracking List</h5>
-
+          <div className="d-flex">
+            <div className="form-check form-switch mx-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked
+                disabled
+              />
+              <label className="form-check-label" for="flexSwitchCheckDefault">
+                Price
+              </label>
+            </div>
+            <div className="form-check form-switch mx-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                onChange={() => setshowReview(!showReview)}
+                style={{ border: "none", backgroundColor: "#ff7300" }}
+              />
+              <label className="form-check-label" for="flexSwitchCheckDefault">
+                Review
+              </label>
+            </div>
+            <div className="form-check form-switch mx-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                onChange={() => setshowSales(!showSales)}
+                style={{ border: "none", backgroundColor: "#28DEC0" }}
+              />
+              <label className="form-check-label" for="flexSwitchCheckDefault">
+                Sales
+              </label>
+            </div>
+            <div className="form-check form-switch mx-2">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                onChange={() => setshowRating(!showRating)}
+                style={{ border: "none", backgroundColor: "red" }}
+              />
+              <label className="form-check-label" for="flexSwitchCheckDefault">
+                Rating
+              </label>
+            </div>
+          </div>
           <Button variant="success" onClick={() => handleShow()}>
             Add
           </Button>
@@ -218,7 +268,7 @@ const Platform = () => {
                       className="card_img"
                     />
                     <Card.Body>
-                      <Card.Title>{res.item.pid}</Card.Title>
+                      {/* <Card.Title>{res.item.pid}</Card.Title> */}
                       <Card.Title
                         style={{ maxHeight: "50px", overflow: "hidden" }}
                       >
@@ -237,7 +287,12 @@ const Platform = () => {
                   lg={9}
                   className="d-flex align-items-center justify-content-center"
                 >
-                  <charts.Individual micro={res.micro} />
+                  <charts.Individual
+                    micro={res.micro}
+                    showRating={showRating}
+                    showReview={showReview}
+                    showSales={showSales}
+                  />
                 </Col>
               </Row>
             );

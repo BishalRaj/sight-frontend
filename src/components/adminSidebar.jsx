@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IconContext } from "react-icons";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import "./style/admin-navbar.css";
 
@@ -12,6 +12,7 @@ function Sidebar(props) {
     setSidebar(!sidebar);
     props.slide(!sidebar);
   };
+  const navigate = useNavigate();
 
   return (
     <IconContext.Provider value={{ color: "green" }}>
@@ -34,6 +35,9 @@ function Sidebar(props) {
                 <Link
                   onClick={() => props.changePath(data.title)}
                   to={data.path}
+                  style={{
+                    backgroundColor: data.title === props.path ? "#28DEC0" : "",
+                  }}
                 >
                   {data.icon}
                   <span>{data.title}</span>
@@ -42,7 +46,13 @@ function Sidebar(props) {
             );
           })}
 
-          <li className="a-nav-text" onClick={() => {}}>
+          <li
+            className="a-nav-text"
+            onClick={() => {
+              localStorage.removeItem("user");
+              navigate("/");
+            }}
+          >
             <Link>
               <AiOutlineLogout />
               <span>Logout</span>

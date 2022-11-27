@@ -21,16 +21,19 @@ const Individual = (props) => {
   const data = props.micro
     ? props.micro.map((res) => {
         return {
-          date: res.date.toString() + "/",
+          date: res.date.toString(),
           review: res.review ? parseInt(res.review) : 0,
           price:
-            Math.round(res.price * 1.0 * Math.random(Math.random * 11) * 100) /
+            Math.round(res.price * 1.0 * Math.random(Math.random * 1) * 100) /
             100,
           sales: res.sales
-            ? Math.round(parseInt(res.sales) * Math.random(Math.random * 11))
+            ? Math.round(
+                parseInt(res.sales)
+                // * Math.random(Math.random * 11)
+              )
             : 0,
           rating:
-            Math.round(res.rating * 1.0 * Math.random(Math.random * 11) * 100) /
+            Math.round(res.rating * 1.0 * Math.random(Math.random * 1) * 100) /
             100,
         };
       })
@@ -48,14 +51,23 @@ const Individual = (props) => {
       }}
     >
       <CartesianGrid stroke="#f5f5f5" />
-      {/* <XAxis dataKey="date" scale="band" /> */}
+      <XAxis dataKey="date" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Area type="monotone" dataKey="sales" fill="#8884d8" stroke="#8884d8" />
       <Bar dataKey="price" barSize={20} fill="#413ea0" />
-      <Line type="monotone" dataKey="review" stroke="#ff7300" />
-      <Scatter dataKey="rating" fill="red" />
+      {props.showSales ? (
+        <Area type="monotone" dataKey="sales" fill="#28DEC0" stroke="#157347" />
+      ) : (
+        ""
+      )}
+
+      {props.showReview ? (
+        <Line type="monotone" dataKey="review" stroke="#ff7300" />
+      ) : (
+        ""
+      )}
+      {props.showRating ? <Scatter dataKey="rating" fill="red" /> : ""}
     </ComposedChart>
   );
 };

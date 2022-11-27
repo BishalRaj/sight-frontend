@@ -62,7 +62,6 @@ const Dashboard = (props) => {
   // ];
 
   const data = props.micro;
-
   return (
     <LineChart
       width={0.8 * width}
@@ -82,11 +81,22 @@ const Dashboard = (props) => {
       <Legend />
       <Line
         type="monotone"
-        dataKey="pv"
-        stroke="#8884d8"
-        activeDot={{ r: data.length }}
+        dataKey="price"
+        stroke="#82ca9d"
+        activeDot={{ r: 5 }}
       />
-      <Line type="monotone" dataKey="price" stroke="#82ca9d" />
+      <Line
+        type="monotone"
+        dataKey="review"
+        stroke="#8884d8"
+        activeDot={{ r: 5 }}
+      />
+      <Line
+        type="monotone"
+        dataKey="rating"
+        stroke="#FF0000"
+        activeDot={{ r: 5 }}
+      />
     </LineChart>
   );
 };
