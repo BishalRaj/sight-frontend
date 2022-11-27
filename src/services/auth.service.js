@@ -11,15 +11,30 @@ const login = (form_data) => {
 
 const isActive = () => {
   return axios
-    .get(`${base_url}/user/authenticate/${localStorage.getItem("user")}`)
+    .get(`${base_url}/user/details/${localStorage.getItem("user")}`)
     .then((response) => {
-      return response;
+      // console.log(response.data);
+      return response.data;
+    });
+};
+const register = (data) => {
+  // `email: ${data.email}  pwd: ${data.password} `
+  return axios
+    .post(`${base_url}/user/register`, {
+      name: data.name,
+      username: data.email,
+      password: data.password,
+    })
+    .then((response) => {
+      // console.log(response.data);
+      return response.data;
     });
 };
 
 const authService = {
   login,
   isActive,
+  register,
 };
 
 export default authService;

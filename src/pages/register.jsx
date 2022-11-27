@@ -12,7 +12,9 @@ import {
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layout/authLayout";
+import authService from "../services/auth.service";
 import { color, image } from "../static";
 const Register = () => {
   const formWidth = {
@@ -21,9 +23,19 @@ const Register = () => {
       width: "80%",
     },
   };
+  let navigate = useNavigate();
+
   const { register, handleSubmit } = useForm();
-  const handleRegister = (data) => {
-    alert(`email: ${data.email}  pwd: ${data.password} `);
+  const handleRegister = async (data) => {
+    // alert(`email: ${data.email}  pwd: ${data.password} `);
+    let res = await authService.register(data);
+    if (res.token == null || res.msj) {
+      alert(res.msj);
+      return;
+    }
+
+    localStorage.setItem("user", res.token);
+    navigate("/dashboard");
   };
 
   const [showPassword, setShowPassword] = useState(false);

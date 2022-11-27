@@ -77,9 +77,12 @@ const AuthLayout = ({
                 href={redirectComponent.link}
                 underline="none"
                 fontWeight="bold"
+                style={{ color: "#00ab55 !important" }}
                 color={color.default}
               >
-                {redirectComponent.redirectText}
+                <span style={{ color: color.default }}>
+                  {redirectComponent.redirectText}
+                </span>
               </Link>
             </Typography>
           </Box>

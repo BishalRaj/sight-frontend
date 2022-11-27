@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IconContext } from "react-icons";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import "./style/admin-navbar.css";
 
@@ -12,14 +12,29 @@ function Sidebar(props) {
     setSidebar(!sidebar);
     props.slide(!sidebar);
   };
-  const navigate = useNavigate();
 
   return (
     <IconContext.Provider value={{ color: "green" }}>
-      <div className="a-navbar shadow" style={{ fontSize: "2rem" }}>
-        <Link className="a-menu-bars">
+      <div className="a-navbar shadow d-flex align-items-center justify-content-between">
+        <Link className="a-menu-bars" style={{ fontSize: "2rem" }}>
           <FaBars onClick={showSideBar} />
         </Link>
+        <div className="mx-5 px-5 d-flex align-items-center justify-content-center">
+          <span
+            style={{
+              height: "50px",
+              width: "50px",
+            }}
+            className="my-auto shadow-lg rounded-circle p-2 d-flex align-item-center justify-content-center"
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/0/93.png"
+              alt=""
+              className="w-100"
+            />
+          </span>
+          <p className="my-auto fw-bold text-light mx-2">{props.name}</p>
+        </div>
       </div>
       <nav className={sidebar ? "a-nav-menu active shadow" : "a-nav-menu"}>
         <ul className="a-nav-menu-items">
@@ -49,8 +64,7 @@ function Sidebar(props) {
           <li
             className="a-nav-text"
             onClick={() => {
-              localStorage.removeItem("user");
-              navigate("/");
+              props.logout();
             }}
           >
             <Link>
