@@ -18,7 +18,7 @@ export const SidebarData = [
     cName: "a-nav-text",
   },
   {
-    title: "Excel",
+    title: "Dataset",
     icon: <AiFillFileExcel />,
     cName: "a-nav-text",
   },

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/adminSidebar";
 import Home from "../pages/admin/dashboard";
 import Platform from "../pages/admin/platform";
-import Excel from "../pages/admin/excel";
+import Dataset from "../pages/admin/dataset";
 import "./style/adminStyles.css";
 import auth from "../services/auth.service";
 
@@ -53,8 +53,8 @@ const AdminLayout = () => {
       case "Etsy":
         return <Platform />;
         break;
-      case "Excel":
-        return <Excel />;
+      case "Dataset":
+        return <Dataset />;
         break;
       default:
         return <Home />;
