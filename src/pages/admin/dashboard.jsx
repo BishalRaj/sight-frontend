@@ -35,7 +35,6 @@ const Home = () => {
 
   let getAllData = async () => {
     var data = await productService.fetchTrackingData();
-    // console.log(data);
     setTrackingData(data);
   };
 

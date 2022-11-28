@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/adminSidebar";
 import Home from "../pages/admin/dashboard";
 import Platform from "../pages/admin/platform";
+import Excel from "../pages/admin/excel";
 import "./style/adminStyles.css";
 import auth from "../services/auth.service";
 
@@ -51,6 +52,9 @@ const AdminLayout = () => {
         break;
       case "Etsy":
         return <Platform />;
+        break;
+      case "Excel":
+        return <Excel />;
         break;
       default:
         return <Home />;

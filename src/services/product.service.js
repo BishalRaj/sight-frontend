@@ -8,6 +8,11 @@ const singleSearch = (url) => {
       return response.data;
     });
 };
+const singleSearchByKeyword = (keyword) => {
+  return axios.get(`${base_url}/scrape/etzy/${keyword}`).then((response) => {
+    return response.data;
+  });
+};
 const fetchTrackingData = (url) => {
   return axios
     .get(`${base_url}/tracking/all/${localStorage.getItem("user")}`)
@@ -31,6 +36,7 @@ const productService = {
   singleSearch,
   saveTracking,
   fetchTrackingData,
+  singleSearchByKeyword,
 };
 
 export default productService;
