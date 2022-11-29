@@ -49,7 +49,7 @@ const Login = () => {
         }
         navigate("/dashboard");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err.message));
   };
 
   const [showPassword, setShowPassword] = useState(false);
