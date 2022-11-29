@@ -7,6 +7,7 @@ import {
   Form,
   Modal,
   Row,
+  Spinner,
 } from "react-bootstrap";
 
 import { useNavigate } from "react-router-dom";
@@ -26,6 +27,8 @@ const Platform = () => {
   const [showReview, setshowReview] = useState(false);
   const [showRating, setshowRating] = useState(false);
   const [showSales, setshowSales] = useState(false);
+  const [isSearchLoading, setisSearchLoading] = useState(false);
+  const [isExportLoading, setisExportLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,7 +46,6 @@ const Platform = () => {
     }
     getAllData();
   }, [url, navigate]);
-  const [isExportLoading, setisExportLoading] = useState(false);
 
   let getAllData = async () => {
     var data = await productService.fetchTrackingData();
@@ -57,8 +59,11 @@ const Platform = () => {
   };
 
   let handleSubmit = () => {
+    setisSearchLoading(true);
+
     productService.singleSearch(url).then((response) => {
       response.pid ? setSearchData(response) : alert("Someting went wrong!");
+      setisSearchLoading(false);
     });
   };
 
@@ -201,7 +206,11 @@ const Platform = () => {
               onClick={handleSubmit}
               disabled={disabled}
             >
-              Search
+              {isSearchLoading ? (
+                <Spinner animation="border" variant="danger" className="mx-3" />
+              ) : (
+                "Search"
+              )}
             </Button>
           </Form>
 

@@ -72,7 +72,7 @@ const Dataset = () => {
           <div className="d-flex align-items-center justify-content-between">
             {isSearchLoading ? (
               <span className="d-flex">
-                <Spinner animation="border" variant="danger" className="mx-3" />{" "}
+                <Spinner animation="border" variant="danger" className="mx-3" />
                 Fetching Data..........
               </span>
             ) : (
