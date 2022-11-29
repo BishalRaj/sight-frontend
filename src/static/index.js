@@ -11,7 +11,8 @@ export const image = {
     "https://image.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg",
 };
 
-export const base_url = "http://localhost:8000";
+export const base_url = "http://34.227.173.15";
+// export const base_url = "http://localhost:8000";
 export const headers = {
   "Content-Type": "json",
 };

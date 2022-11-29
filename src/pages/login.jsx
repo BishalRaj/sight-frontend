@@ -40,13 +40,16 @@ const Login = () => {
     form_data.append("username", data.email);
     form_data.append("password", data.password);
 
-    authService.login(form_data).then((data) => {
-      if (data && !data.access_token && data.detail) {
-        alert(data.detail);
-        return;
-      }
-      navigate("/dashboard");
-    });
+    authService
+      .login(form_data)
+      .then((data) => {
+        if (data && !data.access_token && data.detail) {
+          alert(data.detail);
+          return;
+        }
+        navigate("/dashboard");
+      })
+      .catch((err) => console.log(err));
   };
 
   const [showPassword, setShowPassword] = useState(false);

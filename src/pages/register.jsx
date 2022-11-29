@@ -27,14 +27,13 @@ const Register = () => {
 
   const { register, handleSubmit } = useForm();
   const handleRegister = async (data) => {
-    // alert(`email: ${data.email}  pwd: ${data.password} `);
     let res = await authService.register(data);
-    if (res.token == null || res.msj) {
+    if (res.access_token == null || res.msj) {
       alert(res.msj);
       return;
     }
 
-    localStorage.setItem("user", res.token);
+    localStorage.setItem("user", res.access_token);
     navigate("/dashboard");
   };
 
