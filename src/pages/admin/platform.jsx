@@ -43,6 +43,7 @@ const Platform = () => {
     }
     getAllData();
   }, [url, navigate]);
+  const [isExportLoading, setisExportLoading] = useState(false);
 
   let getAllData = async () => {
     var data = await productService.fetchTrackingData();
@@ -57,7 +58,6 @@ const Platform = () => {
 
   let handleSubmit = () => {
     productService.singleSearch(url).then((response) => {
-      console.log(response);
       response.pid ? setSearchData(response) : alert("Someting went wrong!");
     });
   };
@@ -146,6 +146,25 @@ const Platform = () => {
     }
 
     return data;
+  };
+
+  const handleExport = async (format) => {
+    let data = [];
+    await trackingData.forEach((element) => {
+      return element.micro.forEach((item) => {
+        delete item.id;
+        data.push({
+          ...item,
+          name: element.item.name,
+          url: element.item.url,
+          img: element.item.img,
+        });
+      });
+    });
+
+    setisExportLoading(true);
+    await productService.exportToExcel(data, "Sheet1", format);
+    setisExportLoading(false);
   };
 
   return (
@@ -289,11 +308,31 @@ const Platform = () => {
           <Button variant="success" onClick={() => handleShow()}>
             Add
           </Button>
+
+          {trackingData.length > 0 ? (
+            <div>
+              <Button
+                variant="success"
+                onClick={() => handleExport("csv")}
+                className="mx-1"
+              >
+                Export as csv
+              </Button>
+              <Button
+                variant="success"
+                onClick={() => handleExport("xlsx")}
+                className="mx-1"
+              >
+                Export as xlsx
+              </Button>
+            </div>
+          ) : (
+            ""
+          )}
         </Col>
 
         {trackingData && trackingData.length > 0 ? (
           trackingData.map((res, index) => {
-            console.log(res);
             return (
               <Row className="shadow my-2">
                 <Col sm={6} md={4} lg={3} className="my-2" key={index}>
