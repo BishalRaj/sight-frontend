@@ -7,7 +7,7 @@ Sight Frontend is a web application built for a Master's dissertation, which inc
 - Interactive graphs: Users can interact with the graphs by hovering over data points to view additional information and zooming in or out to focus on specific data points.
 - User-friendly interface: Sight Frontend features a user-friendly interface that is easy to navigate, even for users with limited technical knowledge.
 
-##Technologies
+## Technologies
 Sight Frontend is built using the following technologies:
 
 - React: A JavaScript library for building user interfaces.
