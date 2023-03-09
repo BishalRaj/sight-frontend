@@ -18,7 +18,7 @@ Sight Frontend is built using the following technologies:
 - LocalForage: A fast and simple key-value store library for JavaScript.
 - XLSX: A library for reading and writing Excel files in JavaScript.
 
-##Dependencies
+## Dependencies
 Here are the main dependencies used in Sight Frontend:
 
 @emotion/react
@@ -47,7 +47,7 @@ Sort-by
 Web-vitals
 XLSX
 
-##Getting Started
+## Getting Started
 To get started with Sight Frontend, clone the repository and install the dependencies using the following commands:
 
 ```
