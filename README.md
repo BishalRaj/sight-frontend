@@ -51,7 +51,7 @@ XLSX
 To get started with Sight Frontend, clone the repository and install the dependencies using the following commands:
 
 ```
-git clone https://github.com/your-username/sight-frontend.git
+git clone https://github.com/BishalRaj/sight-frontend.git
 cd sight-frontend
 npm install
 ```
