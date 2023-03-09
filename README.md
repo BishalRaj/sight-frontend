@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Sight Frontend
+Sight Frontend is a web application built for a Master's dissertation, which includes features such as data scraping, data visualization, and interactive graphs. It utilizes various libraries such as React, Bootstrap, ApexCharts, and Recharts to provide a seamless user experience.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
+- Data scraping: Sight Frontend is equipped with a data scraping tool that allows users to extract data from different sources and visualize them in meaningful ways.
+- Data visualization: The application includes multiple visualization options, including bar charts, line charts, pie charts, and scatter plots.
+- Interactive graphs: Users can interact with the graphs by hovering over data points to view additional information and zooming in or out to focus on specific data points.
+- User-friendly interface: Sight Frontend features a user-friendly interface that is easy to navigate, even for users with limited technical knowledge.
 
-## Available Scripts
+##Technologies
+Sight Frontend is built using the following technologies:
 
-In the project directory, you can run:
+- React: A JavaScript library for building user interfaces.
+- Bootstrap: A popular CSS framework for building responsive, mobile-first websites.
+- ApexCharts: A modern charting library that provides a wide range of charts with interactive features.
+- Recharts: A charting library built with React and D3.
+- Axios: A Promise-based HTTP client for the browser and Node.js.
+- LocalForage: A fast and simple key-value store library for JavaScript.
+- XLSX: A library for reading and writing Excel files in JavaScript.
 
-### `npm start`
+##Dependencies
+Here are the main dependencies used in Sight Frontend:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+@emotion/react
+@emotion/styled
+@mui/material
+@testing-library/jest-dom
+@testing-library/react
+@testing-library/user-event
+ApexCharts
+Axios
+Bootstrap
+File-saver
+LocalForage
+Match-sorter
+React
+React-apexcharts
+React-bootstrap
+React-bootstrap-sidebar-menu
+React-dom
+React-hook-form
+React-icons
+React-router-dom
+React-scripts
+Recharts
+Sort-by
+Web-vitals
+XLSX
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+##Getting Started
+To get started with Sight Frontend, clone the repository and install the dependencies using the following commands:
 
-### `npm test`
+```
+git clone https://github.com/your-username/sight-frontend.git
+cd sight-frontend
+npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Once the dependencies are installed, you can start the development server using the following command:
+```
+npm start
+```
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contributing
+If you would like to contribute to Sight Frontend, please open a pull request or an issue on the GitHub repository. We welcome contributions from the community!
